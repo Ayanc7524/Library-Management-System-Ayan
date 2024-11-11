@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Library System</title>
+</head>
+<body>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    
+    body {
+        display: flex;
+        height: 100vh;
+        color: #333;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 250px;
+        background-color: #34495e;
+        color: #ecf0f1;
+        padding: 20px;
+    }
+    
+    .sidebar h2 {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+    
+    .sidebar ul {
+        list-style: none;
+    }
+    
+    .sidebar ul li {
+        margin: 15px 0;
+    }
+    
+    .sidebar ul li a {
+        color: #ecf0f1;
+        text-decoration: none;
+    }
+    
+    .sidebar ul li a:hover {
+        color: #3498db;
+    }
+    
+    /* Main content */
+    .main-content {
+        flex: 1;
+        padding: 20px;
+        background-color: #ecf0f1;
+    }
+    
+    header {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    
+    /* Profile Info */
+    .profile-info {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    .profile-info p {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    /* Borrowed Books Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    table th, table td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    
+    table th {
+        background-color: #3498db;
+        color: #fff;
+    }
+    
+    table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    
+    /* Search Bar */
+    .search-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .search-bar input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    .search-bar button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .search-bar button:hover {
+        background-color: #2980b9;
+    }
+    
+</style>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Library Dashboard</h2>
+    <ul>
+        <li><a href="/borrowed_books">Borrowed Books</a></li>
+        <li><a href="/books">Search Books</a></li>
+        <li><a href="/logout" onclick="logout()">Logout</a></li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <header>
+        <h1>Welcome {{full_name}}</h1>
+    </header>
+    <!-- Profile Section -->
+    <section id="profile" class="section">
+        <h2>My Profile</h2>
+        <div class="profile-info">
+            <p><strong>Email:</strong> {{ session['email'] }}</p>
+            <p><strong>Member ID:</strong> {{ session['email'] }}</p> <!-- You can change this to user_id or another identifier -->
+        </div>
+    </section>
+
+    <!-- Search Books Section -->
+    <section id="search" class="section">
+        <h2>Search Books</h2>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for books..." onkeyup="searchBooks()">
+            <button onclick="searchBooks()">Search</button>
+        </div>
+        <div id="search-results"></div>
+    </section>
+</div>
+
+<script>
+    // Sample book data for search
+
+    // Function to simulate book search
+    function searchBooks() {
+        const searchInput = document.getElementById('search-input').value.toLowerCase();
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+
+        const filteredBooks = books.filter(book =>
+            book.title.toLowerCase().includes(searchInput) || book.author.toLowerCase().includes(searchInput)
+        );
+
+        if (filteredBooks.length > 0) {
+            filteredBooks.forEach(book => {
+                const bookElement = document.createElement('div');
+                bookElement.className = 'search-result';
+                bookElement.innerHTML = `<strong>${book.title}</strong> by ${book.author}`;
+                searchResults.appendChild(bookElement);
+            });
+        } else {
+            searchResults.innerHTML = '<p>No books found</p>';
+        }
+    }
+
+    // Simulate logout function
+    function logout() {
+        alert("Logging out...");
+        window.location.href = "login.html"; // Redirect to login page
+    }
+</script>
+<a href="{{ url_for('borrowed_books') }}"</a>
+</body>
+</html>
